@@ -1,0 +1,7 @@
+[wrap-file]
+directory = abseil-cpp-20200225.2
+
+source_url = https://github.com/abseil/abseil-cpp/archive/20200225.2.zip
+source_filename = abseil-cpp-20200225.2.zip
+source_hash = f342aac71a62861ac784cadb8127d5a42c6c61ab1cd07f00aef05f2cc4988c42
+
