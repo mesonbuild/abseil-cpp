@@ -2,7 +2,15 @@ project('abseil-cpp', 'cpp',
   version: '20200225.2',
   license: 'Apache-2.0')
 
-add_project_arguments('-Wno-sign-compare', language: 'cpp')
+cc = meson.get_compiler('c')
+
+c_flags = [
+  '-Wno-sign-compare'
+]
+flags = cc.get_supported_arguments(c_flags)
+
+add_project_arguments(flags, language: 'cpp')
+
 
 absl_include_dir = include_directories('.')
 
