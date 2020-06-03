@@ -2,12 +2,12 @@ project('abseil-cpp', 'cpp',
   version: '20200225.2',
   license: 'Apache-2.0')
 
-cc = meson.get_compiler('c')
+cpp = meson.get_compiler('cpp')
 
-c_flags = [
+cpp_flags = [
   '-Wno-sign-compare'
 ]
-flags = cc.get_supported_arguments(c_flags)
+flags = cpp.get_supported_arguments(cpp_flags)
 
 add_project_arguments(flags, language: 'cpp')
 
