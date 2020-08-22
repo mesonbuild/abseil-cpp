@@ -11,6 +11,18 @@ flags = cpp.get_supported_arguments(cpp_flags)
 
 add_project_arguments(flags, language: 'cpp')
 
+libatomic = dependency('', required: false)
+if not cpp.links('''#include <stdint.h>
+                   int main() {
+                     struct {
+                       uint64_t *v;
+                     } x;
+                     return (int)__atomic_load_n(x.v, __ATOMIC_ACQUIRE) &
+                            (int)__atomic_add_fetch(x.v, (uint64_t)1, __ATOMIC_ACQ_REL);
+                   }''',
+                name : 'GCC atomic builtins')
+  libatomic = cpp.find_library('atomic')
+endif
 
 absl_include_dir = include_directories('.')
 
@@ -161,7 +173,7 @@ absl_base_lib = library(
   'absl_base_lib',
   absl_base_sources,
   include_directories: absl_include_dir,
-  dependencies: [dependency('threads')],
+  dependencies: [dependency('threads'), libatomic],
 )
 
 absl_debugging_lib = library(
@@ -169,6 +181,7 @@ absl_debugging_lib = library(
   absl_debugging_sources,
   include_directories: absl_include_dir,
   link_with: absl_base_lib,
+  dependencies: libatomic,
 )
 
 absl_hash_lib = library(
@@ -201,6 +214,7 @@ absl_random_lib = library(
     absl_base_lib,
     absl_strings_lib,
   ],
+  dependencies: libatomic,
 )
 
 absl_time_lib = library(
@@ -240,6 +254,7 @@ absl_flags_lib = library(
     absl_synchronization_lib,
     absl_strings_lib,
   ],
+  dependencies: libatomic,
 )
 
 absl_container_lib = library(
