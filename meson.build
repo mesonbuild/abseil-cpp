@@ -226,6 +226,8 @@ absl_time_lib = library(
     absl_numeric_lib,
     absl_strings_lib,
   ],
+  # macOS only, upstream: https://github.com/abseil/abseil-cpp/pull/280
+  dependencies : [dependency('CoreFoundation', required : false)],
 )
 
 absl_types_lib = library(
